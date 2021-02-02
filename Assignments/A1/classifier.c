@@ -33,12 +33,38 @@
  *    - Free all the data allocated and exit.
  */
 int main(int argc, char *argv[]) {
-  // TODO: Handle command line arguments
 
-  // TODO: Compute the total number of correct predictions
-  int total_correct = 0;
+    // TODO: Handle command line arguments
+    if (argc != 4) {
+        fprintf(stderr, "Usage: K training_file testing_file");
+        exit(1);
+    }
 
-  // Print out answer
-  printf("%d\n", total_correct);
-  return 0;
+    int k = strtol(argv[1], NULL, 10);
+    const char *train = argv[2];
+    const char *test = argv[3];
+
+    Dataset *training = load_dataset(train);
+    Dataset *testing = load_dataset(test);
+
+    // TODO: Compute the total number of correct predictions
+    int total_correct = 0;
+
+    for (int i = 0; i < testing->num_items; i++)
+    {
+        // printf("%d\n", i);
+        Image *image = &testing->images[i];
+        int num = testing->labels[i];
+        int predict = knn_predict(training, image, k);
+        if (predict == num) {
+            total_correct++;
+        }
+    }
+
+    // Print out answer
+    printf("%d\n", total_correct);
+
+    free_dataset(training);
+    free_dataset(testing);
+    return 0;
 }
