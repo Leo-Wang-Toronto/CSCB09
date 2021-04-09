@@ -89,6 +89,12 @@ Dataset *init_dataset(int size) {
         perror("malloc");
         exit(1);
     }
+    
+    dataset->images = malloc(sizeof(Image) * size);
+    if (dataset->images == NULL) {
+        perror("malloc");
+        exit(1);
+    }
 
     return dataset;
 }
@@ -185,10 +191,10 @@ double max_val_double(double arr[], int size) {
 }
 
 // algo from https://www.geeksforgeeks.org/frequent-element-array/
-int mode(int arr[], int n) {
+int mode(unsigned char arr[], int n) {
     // find the max frequency using linear traversal 
     int max_count = 1, curr_count = 1; 
-    int res = arr[0];
+    unsigned char res = arr[0];
     for (int i = 1; i < n; i++) { 
         if (arr[i] == arr[i - 1]) 
             curr_count++; 
@@ -212,7 +218,7 @@ int mode(int arr[], int n) {
 }
 
 int knn_predict(Dataset *data, Image *input, int K) {
-    int similar[K];
+    unsigned char similar[K];
     double similar_dist[K];
 
     for (int i = 0; i < data->num_items; i++)
@@ -245,5 +251,4 @@ void free_dataset(Dataset *data) {
         free(data->images[i].data);
     }
     free(data->images);
-    free(data);
 }
