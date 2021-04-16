@@ -47,6 +47,15 @@ int main(int argc, char *argv[]) {
     int K = strtol(argv[1], NULL, 10);
     int num_procs = strtol(argv[4], NULL, 10);
 
+    if (num_procs < 1) {
+        fprintf(stderr, "Invalid num_proc value: %d\n", num_procs);
+        exit(1);
+    }
+    if (K < 1) {
+        fprintf(stderr, "Invalid K value: %d\n", K);
+        exit(1);
+    }
+
     Dataset *training = load_dataset(train);
     Dataset *testing = load_dataset(test);
 

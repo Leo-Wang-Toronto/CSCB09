@@ -8,8 +8,6 @@
 #define PORT_NUM 50000
 #define MAX_BACKLOG 5
 
-void serve_client(int fd);
-
 int main() {
 
     // Create socket
